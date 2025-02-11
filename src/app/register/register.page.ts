@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-register',
@@ -14,7 +14,7 @@ export class RegisterPage {
   passwordMismatch = false;
   users: any[] = [];
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private alertController: AlertController) {
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email, Validators.pattern(/^\S+@\S+\.\S+$/)]],
       fullName: ['', [Validators.required]],
@@ -50,15 +50,27 @@ export class RegisterPage {
     }
   }
 
+  async showAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+      header,
+      message,
+      buttons: ['OK'],
+    });
+
+    await alert.present();
+  }
+
   register() {
     if (this.registerForm.invalid || this.passwordMismatch) {
       this.registerForm.markAllAsTouched();
-      alert('Por favor, corrige los errores en el formulario.');
+      this.showAlert('Error', 'Por favor, corrige los errores en el formulario.');
       return;
     }
+
     this.users.push(this.registerForm.value);
     console.log('Usuarios registrados:', this.users);
-    alert('¡Registro exitoso!');
+
+    this.showAlert('¡Registro Exitoso!', 'Tu cuenta ha sido creada correctamente.');
     this.registerForm.reset();
   }
   
