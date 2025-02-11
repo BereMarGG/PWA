@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Registro de Usuario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="registerForm" (ngSubmit)="register()">
+    <ion-item>
+      <ion-label position="floating">Correo Electrónico</ion-label>
+      <ion-input formControlName="email" type="email" (ionBlur)="validateEmail()"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="email?.invalid && (email?.dirty || email?.touched)">
+      Correo inválido.
+    </ion-text>
+
+    <ion-item>
+      <ion-label position="floating">Nombre Completo</ion-label>
+      <ion-input formControlName="fullName" (ionInput)="toUpperCase($event)"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Usuario</ion-label>
+      <ion-input formControlName="username" (ionInput)="removeSpaces($event)"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input type="password" formControlName="password" (ionInput)="validatePasswordMatch()"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Confirmar Contraseña</ion-label>
+      <ion-input type="password" formControlName="confirmPassword" (ionInput)="validatePasswordMatch()"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="passwordMismatch && registerForm.get('confirmPassword')?.touched">
+      Las contraseñas no coinciden.
+    </ion-text>    
+
+    <ion-item>
+      <ion-label position="floating">Fecha de Nacimiento</ion-label>
+      <ion-datetime formControlName="birthDate" display-format="DD/MM/YYYY"></ion-datetime>
+    </ion-item>
+
+    <ion-button expand="full" type="submit" [disabled]="!registerForm.valid">Registrar</ion-button>
+  </form>
+</ion-content>

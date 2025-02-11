@@ -1,20 +1,44 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="ion-padding">
+  <div class="login-container">
+    <ion-item>
+      <ion-label position="floating">Username</ion-label>
+      <ion-input
+        type="text"
+        [(ngModel)]="username"
+        (ionInput)="handleUsernameInput($event)"
+        placeholder="Enter username"
+      ></ion-input>
+    </ion-item>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <ion-item>
+      <ion-label position="floating">Password</ion-label>
+      <ion-input
+        type="password"
+        [(ngModel)]="password"
+        (ionInput)="handlePasswordInput($event)"
+        placeholder="Enter password"
+      ></ion-input>
+    </ion-item>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <ion-button expand="block" [disabled]="!isFormValid" (click)="openModal()">
+      Show Info
+    </ion-button>
+     <!-- Botón de Registro -->
+     <ion-button expand="block" color="primary" (click)="goToRegister()">
+      Register
+    </ion-button>
   </div>
+
+  <!-- Modal -->
+  <ion-modal #modal>
+    <ion-content class="modal-content">
+      <div class="modal-box">
+        <h2>Entered Information</h2>
+        <p *ngIf="storedUsername"><strong>Username:</strong> {{ storedUsername }}</p>
+        <p *ngIf="storedPassword"><strong>Password:</strong> <span>{{ storedPassword }}</span></p>
+
+        <ion-button expand="block" color="danger" (click)="closeModal()">Close</ion-button>
+      </div>
+    </ion-content>
+  </ion-modal>
 </ion-content>
