@@ -1,44 +1,65 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Bienvenido a la App</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="danger" (click)="logout()">
+        <ion-icon name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content class="ion-padding">
-  <div class="login-container">
-    <ion-item>
-      <ion-label position="floating">Username</ion-label>
-      <ion-input
-        type="text"
-        [(ngModel)]="username"
-        (ionInput)="handleUsernameInput($event)"
-        placeholder="Enter username"
-      ></ion-input>
-    </ion-item>
+  <div class="home-container">
+    <h2>Hola, {{ username }} 👋</h2>
+    <p>Bienvenido a la aplicación. Explora las opciones a continuación.</p>
 
-    <ion-item>
-      <ion-label position="floating">Password</ion-label>
-      <ion-input
-        type="password"
-        [(ngModel)]="password"
-        (ionInput)="handlePasswordInput($event)"
-        placeholder="Enter password"
-      ></ion-input>
-    </ion-item>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+          <ion-card (click)="goToFeature('profile')">
+            <ion-card-header>
+              <ion-icon name="person-circle-outline" size="large"></ion-icon>
+            </ion-card-header>
+            <ion-card-content>
+              <h3>Perfil</h3>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
 
-    <ion-button expand="block" [disabled]="!isFormValid" (click)="openModal()">
-      Show Info
-    </ion-button>
-     <!-- Botón de Registro -->
-     <ion-button expand="block" color="primary" (click)="goToRegister()">
-      Register
-    </ion-button>
+        <ion-col size="6">
+          <ion-card (click)="goToFeature('settings')">
+            <ion-card-header>
+              <ion-icon name="settings-outline" size="large"></ion-icon>
+            </ion-card-header>
+            <ion-card-content>
+              <h3>Ajustes</h3>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+
+        <ion-col size="6">
+          <ion-card (click)="goToFeature('support')">
+            <ion-card-header>
+              <ion-icon name="help-circle-outline" size="large"></ion-icon>
+            </ion-card-header>
+            <ion-card-content>
+              <h3>Soporte</h3>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+
+        <ion-col size="6">
+          <ion-card (click)="goToFeature('about')">
+            <ion-card-header>
+              <ion-icon name="information-circle-outline" size="large"></ion-icon>
+            </ion-card-header>
+            <ion-card-content>
+              <h3>Acerca de</h3>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
-
-  <!-- Modal -->
-  <ion-modal #modal>
-    <ion-content class="modal-content">
-      <div class="modal-box">
-        <h2>Entered Information</h2>
-        <p *ngIf="storedUsername"><strong>Username:</strong> {{ storedUsername }}</p>
-        <p *ngIf="storedPassword"><strong>Password:</strong> <span>{{ storedPassword }}</span></p>
-
-        <ion-button expand="block" color="danger" (click)="closeModal()">Close</ion-button>
-      </div>
-    </ion-content>
-  </ion-modal>
 </ion-content>
