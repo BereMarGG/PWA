@@ -1,0 +1,48 @@
+<ion-content class="ion-padding">
+  <div class="login-container">
+    <ion-item>
+      <ion-label position="floating">Username</ion-label>
+      <ion-input
+        type="text"
+        [(ngModel)]="username"
+        (ionInput)="handleUsernameInput($event)"
+        placeholder="Enter username"
+      ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Password</ion-label>
+      <ion-input
+        type="password"
+        [(ngModel)]="password"
+        (ionInput)="handlePasswordInput($event)"
+        placeholder="Enter password"
+      ></ion-input>
+    </ion-item>
+
+    <!-- <ion-button expand="block" [disabled]="!isFormValid" (click)="openModal()">
+      Show Info
+    </ion-button> -->
+
+    <ion-button expand="block" [disabled]="!isFormValid" (click)="login()">
+      Login
+    </ion-button>
+     <!-- Botón de Registro -->
+     <ion-button expand="block" color="primary" (click)="goToRegister()">
+      Register
+    </ion-button>
+  </div>
+
+  <!-- Modal -->
+  <!-- <ion-modal #modal>
+    <ion-content class="modal-content">
+      <div class="modal-box">
+        <h2>Entered Information</h2>
+        <p *ngIf="storedUsername"><strong>Username:</strong> {{ storedUsername }}</p>
+        <p *ngIf="storedPassword"><strong>Password:</strong> <span>{{ storedPassword }}</span></p>
+
+        <ion-button expand="block" color="danger" (click)="closeModal()">Close</ion-button>
+      </div>
+    </ion-content>
+  </ion-modal> -->
+</ion-content>

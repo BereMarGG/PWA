@@ -1,0 +1,19 @@
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Para ocupar toda la pantalla */
+}
+
+.loading-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px; /* Espacio entre el logo y el spinner */
+}
+
+.logo {
+  width: 300px; 
+  height: auto;
+}

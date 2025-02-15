@@ -3,18 +3,30 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    path: 'loading-init',
+    loadChildren: () => import('./loading-init/loading-init.module').then(m => m.LoadingInitPageModule)
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'loading-init', // Ahora redirige a Loading Init en lugar de Home
     pathMatch: 'full'
   },
   {
-    path: 'register',
-    loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule)
   },
+  {
+    path: 'loading-login-success',
+    loadChildren: () => import('./loading-login-success/loading-login-success.module').then(m => m.LoadingLoginSuccessPageModule)
+  },
+  {
+    path: 'home',
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
+  },
+  {
+    path: 'register',
+    loadChildren: () => import('./register/register.module').then(m => m.RegisterPageModule)
+  }
 ];
 
 @NgModule({
