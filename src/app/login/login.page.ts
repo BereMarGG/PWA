@@ -1,7 +1,9 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { IonModal, NavController } from '@ionic/angular';
+import { Component } from '@angular/core';
+import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
+import { Firestore, doc, getDoc } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-
+import { AlertController } from '@ionic/angular';
+//Maria Berenice Garcia Gutierrez
 
 @Component({
   selector: 'app-login',
@@ -10,65 +12,61 @@ import { Router } from '@angular/router';
   standalone: false
 })
 export class LoginPage {
- @ViewChild('modal', { static: false }) modal!: IonModal;
-
-  username: string = '';
+  email: string = '';
   password: string = '';
-  storedUsername: string = '';
-  storedPassword: string = '';
-  isFormValid: boolean = false;
 
-  constructor(private navCtrl: NavController, private cdr: ChangeDetectorRef,private router: Router) {}
+  constructor(
+    private auth: Auth,
+    private firestore: Firestore,
+    public router: Router,
+    private alertController: AlertController
+  ) {}
 
-  handleUsernameInput(event: any) {
-    this.username = event.target.value.trim();
-    this.validateForm();
-  }
+  async login() {
+    try {
+      const userCredential = await signInWithEmailAndPassword(this.auth, this.email, this.password);
+      const user = userCredential.user;
+      
+      // Obtener datos del usuario desde Firestore
+      const userDocRef = doc(this.firestore, 'users', user.uid);
+      const userDocSnap = await getDoc(userDocRef);
 
-  handlePasswordInput(event: any) {
-    this.password = event.target.value.trim();
-    this.validateForm();
-  }
+      if (userDocSnap.exists()) {
+        const userData = userDocSnap.data();
+        
+        // Guardar los datos en localStorage
+        localStorage.setItem('token', await user.getIdToken());
+        localStorage.setItem('username', userData['username']);
+        localStorage.setItem('email', userData['email']);
+        localStorage.setItem('role', atob(userData['role']));
 
-  validateForm() {
-    this.isFormValid = this.username.length > 0 && this.password.length > 0;
-  }
 
+        console.log('Usuario autenticado:', userData);
+        console.log("role");
 
-  login() {
-    if (this.isFormValid) {
-      // Simular un proceso de autenticación con un "loading"
-      this.router.navigate(['/loading-login-success']);
-
-      // Después de 3 segundos, redirigir al Home
-      setTimeout(() => {
+        // Redirigir al Home
         this.router.navigate(['/home']);
-      }, 3000);
+      } else {
+        this.showAlert('Error', 'No se encontraron datos del usuario.');
+      }
+    } catch (error: any) {
+      this.showAlert('Error', this.getFirebaseErrorMessage(error.code));
     }
   }
 
+  async showAlert(header: string, message: string) {
+    const alert = await this.alertController.create({ header, message, buttons: ['OK'] });
+    await alert.present();
+  }
 
-  // async openModal() {
-  //   if (this.isFormValid) {
-  //     this.storedUsername = this.username;
-  //     this.storedPassword = this.password;
-
-  //     localStorage.setItem('username', this.storedUsername);
-  //     localStorage.setItem('password', this.storedPassword);
-
-  //     console.log('Datos guardados en localStorage:');
-  //     console.log('Username:', localStorage.getItem('username'));
-  //     console.log('Password:', localStorage.getItem('password'));
-
-  //     await this.modal.present();
-  //   }
-  // }
-
-  // async closeModal() {
-  //   await this.modal.dismiss();
-  // }
-
-  goToRegister() {
-    this.navCtrl.navigateForward('/register');
+  getFirebaseErrorMessage(code: string): string {
+    const errors: { [key: string]: string } = {
+      'auth/user-not-found': 'El usuario no existe.',
+      'auth/wrong-password': 'Contraseña incorrecta.',
+      'auth/invalid-email': 'Formato de correo inválido.',
+      'auth/user-disabled': 'Cuenta deshabilitada.',
+      'auth/too-many-requests': 'Demasiados intentos. Inténtalo más tarde.',
+    };
+    return errors[code] || 'Ocurrió un error. Inténtalo de nuevo.';
   }
 }

@@ -1,65 +1,39 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Bienvenido a la App</ion-title>
+    <ion-title>Bienvenido, {{ username }}</ion-title>
+    
     <ion-buttons slot="end">
-      <ion-button color="danger" (click)="logout()">
+      <ion-button (click)="logout()">
         <ion-icon name="log-out-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <div class="home-container">
-    <h2>Hola, {{ username }} 👋</h2>
-    <p>Bienvenido a la aplicación. Explora las opciones a continuación.</p>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" *ngIf="isAdmin">
+        <ion-card (click)="goToFeature('admin-users')" class="clickable-card">
+          <ion-card-header class="card-header">
+            <ion-icon name="people-outline" size="large"></ion-icon>
+          </ion-card-header>
+          <ion-card-content class="card-content">
+            <h3>Admin Users</h3>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
 
-    <ion-grid>
-      <ion-row>
-        <ion-col size="6">
-          <ion-card (click)="goToFeature('profile')">
-            <ion-card-header>
-              <ion-icon name="person-circle-outline" size="large"></ion-icon>
-            </ion-card-header>
-            <ion-card-content>
-              <h3>Perfil</h3>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-
-        <ion-col size="6">
-          <ion-card (click)="goToFeature('settings')">
-            <ion-card-header>
-              <ion-icon name="settings-outline" size="large"></ion-icon>
-            </ion-card-header>
-            <ion-card-content>
-              <h3>Ajustes</h3>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-
-        <ion-col size="6">
-          <ion-card (click)="goToFeature('support')">
-            <ion-card-header>
-              <ion-icon name="help-circle-outline" size="large"></ion-icon>
-            </ion-card-header>
-            <ion-card-content>
-              <h3>Soporte</h3>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-
-        <ion-col size="6">
-          <ion-card (click)="goToFeature('about')">
-            <ion-card-header>
-              <ion-icon name="information-circle-outline" size="large"></ion-icon>
-            </ion-card-header>
-            <ion-card-content>
-              <h3>Acerca de</h3>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </div>
+      <ion-col size="6">
+        <ion-card (click)="goToFeature('my-profile')" class="clickable-card">
+          <ion-card-header class="card-header">
+            <ion-icon name="person-outline" size="large"></ion-icon>
+          </ion-card-header>
+          <ion-card-content class="card-content">
+            <h3>Mi Perfil</h3>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
