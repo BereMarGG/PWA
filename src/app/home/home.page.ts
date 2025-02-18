@@ -1,5 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { IonModal, NavController } from '@ionic/angular';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,10 +7,27 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.page.scss'],
   standalone: false
 })
-export class HomePage {
-  username = 'Usuario';
+export class HomePage implements OnInit {
+  username: string = 'Usuario';
+  role: string = '';
+  isAdmin: boolean = false;
 
   constructor(private router: Router) {}
+
+  ngOnInit() {
+    // Maria Berenice Garcia Gutierrez
+    const storedUsername = localStorage.getItem('username');
+    const storedEmail = localStorage.getItem('email');
+    const storedRole = localStorage.getItem('role');
+
+    if (storedUsername) {
+      this.username = storedUsername;
+    }
+    if (storedRole) {
+      this.role = storedRole;
+      this.isAdmin = storedRole === 'admin'; // Verificar si es admin
+    }
+  }
 
   goToFeature(feature: string) {
     console.log(`Navegando a ${feature}`);
@@ -19,6 +35,12 @@ export class HomePage {
   }
 
   logout() {
+    // Limpiar localStorage
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    localStorage.removeItem('email');
+    localStorage.removeItem('role');
+
     this.router.navigateByUrl('/login');
   }
 }

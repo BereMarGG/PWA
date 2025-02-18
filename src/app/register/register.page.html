@@ -6,11 +6,12 @@
 
 <ion-content class="ion-padding">
   <form [formGroup]="registerForm" (ngSubmit)="register()">
+    
     <ion-item>
       <ion-label position="floating">Correo Electrónico</ion-label>
       <ion-input formControlName="email" type="email" (ionBlur)="validateEmail()"></ion-input>
     </ion-item>
-    <ion-text color="danger" *ngIf="email?.invalid && (email?.dirty || email?.touched)">
+    <ion-text color="danger" *ngIf="registerForm.get('email')?.invalid && (registerForm.get('email')?.dirty || registerForm.get('email')?.touched)">
       Correo inválido.
     </ion-text>
 
@@ -35,11 +36,21 @@
     </ion-item>
     <ion-text color="danger" *ngIf="passwordMismatch && registerForm.get('confirmPassword')?.touched">
       Las contraseñas no coinciden.
-    </ion-text>    
+    </ion-text>
 
     <ion-item>
       <ion-label position="floating">Fecha de Nacimiento</ion-label>
       <ion-datetime formControlName="birthDate" display-format="DD/MM/YYYY"></ion-datetime>
+    </ion-item>
+
+    <!-- author: Maria Berenice Garcia Gutierrez -->
+
+    <ion-item>
+      <ion-label position="floating">Selecciona un rol</ion-label>
+      <ion-select formControlName="role" placeholder="Rol">
+        <ion-select-option value="user">Usuario</ion-select-option>
+        <ion-select-option value="admin">Administrador</ion-select-option>
+      </ion-select>
     </ion-item>
 
     <ion-button expand="full" type="submit" [disabled]="!registerForm.valid">Registrar</ion-button>
