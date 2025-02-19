@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { AddPageRoutingModule } from './add-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AddPage } from './add.page';
 
@@ -13,7 +14,8 @@ import { AddPage } from './add.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    AddPageRoutingModule
+    AddPageRoutingModule,
+    ReactiveFormsModule
   ],
   declarations: [AddPage]
 })
