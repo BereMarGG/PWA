@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+//author: Maria Berenice Garcia Gutierrez 
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
