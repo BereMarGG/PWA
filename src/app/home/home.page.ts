@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 //author: Maria Berenice Garcia Gutierrez 
 
@@ -13,6 +14,9 @@ export class HomePage implements OnInit {
   username: string = 'Usuario';
   role: string = '';
   isAdmin: boolean = false;
+  image: string | null = null;
+  selectedFilter: String = 'home';
+
 
   constructor(private router: Router) {}
 
@@ -29,6 +33,16 @@ export class HomePage implements OnInit {
       this.role = storedRole;
       this.isAdmin = storedRole === 'admin'; // Verificar si es admin
     }
+  }
+  public async tomarFoto() {
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      source: CameraSource.Camera, 
+      resultType: CameraResultType.Base64   
+    });
+
+    this.image =`data:image/jpeg;base64,${image.base64String}`;
   }
 
   goToFeature(feature: string) {
